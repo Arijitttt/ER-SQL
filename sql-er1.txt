@@ -1,0 +1,62 @@
+CREATE TABLE Component (
+  name VARCHAR(255) NOT NULL,
+  versioninfo INT NOT NULL,
+  basedon VARCHAR(255),
+  isclosed BOOLEAN NOT NULL,
+  PRIMARY KEY (name)
+);
+
+CREATE TABLE ComponentObject (
+  objectid VARCHAR(255) NOT NULL,
+  m INT NOT NULL,
+  deforder INT NOT NULL,
+  timestamp DATETIME NOT NULL,
+  versioninfo INT NOT NULL,
+  defbody VARCHAR(255) NOT NULL,
+  PRIMARY KEY (objectid)
+);
+
+CREATE TABLE Object (
+  name VARCHAR(255) NOT NULL,
+  basedon VARCHAR(255),
+  type VARCHAR(255) NOT NULL,
+  metadata VARCHAR(255),
+  PRIMARY KEY (name)
+);
+
+CREATE TABLE ObjectMethod (
+  isclosed BOOLEAN NOT NULL,
+  is extension BOOLEAN NOT NULL,
+  m INT NOT NULL,
+  me thodid VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  versioninfo INT NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  basedon VARCHAR(255),
+  timestamp DATETIME NOT NULL,
+  body VARCHAR(255) NOT NULL,
+  PRIMARY KEY (me thodid)
+);
+
+CREATE TABLE ComponentRequire (
+  name VARCHAR(255) NOT NULL,
+  require VARCHAR(255) NOT NULL,
+  timestamp DATETIME NOT NULL,
+  basedon VARCHAR(255),
+  PRIMARY KEY (name, require)
+);
+
+ALTER TABLE ComponentObject
+ADD CONSTRAINT FK_ComponentObject_Component
+FOREIGN KEY (basedon)
+REFERENCES Component (name);
+
+ALTER TABLE ComponentRequire
+ADD CONSTRAINT FK_ComponentRequire_Component
+FOREIGN KEY (basedon)
+REFERENCES Component (name);
+
+ALTER TABLE ObjectMethod
+ADD CONSTRAINT FK_ObjectMethod_Object
+FOREIGN KEY (basedon)
+REFERENCES Object (name);
